@@ -1,10 +1,7 @@
 package com.example.employee;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 //@RequestMapping("/employee")
@@ -44,4 +41,13 @@ public class EmployeeController {
             throw new EmployeeNotFind();
         }
     }
+    @GetMapping("/print/{id}")
+    public String print(@PathVariable("id") int id) {
+        return  "Штат сотрудников: " + employeeService.print(id);
+    }
+    @GetMapping("/length")
+    public String print() {
+        return "Размер " + employeeService.length();
+    }
+
 }
