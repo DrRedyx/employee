@@ -8,61 +8,42 @@ public class EmployeeService {
 
     private Employee[] employees = //new Employee[4];
             {
-            new Employee("Sandro", "Necromancer"),
-            new Employee("Lord", "Voldemort"),
-            new Employee("Saruman", "White"),
-            new Employee("Wild", "Hunt"),
-    };
+                    new Employee("Sandro", "Necromancer"),
+                    new Employee("Lord", "Voldemort"),
+                    new Employee("Saruman", "White"),
+                    new Employee("Wild", "Hunt"),
+            };
 
     public Employee addEmployee(String firstname, String lastname) {
-        Employee employee = null;
+        Employee employee = new Employee(firstname, lastname);
         for (int i = 0; i < employees.length; i++) {
             if (employees[i] == null) {
-                employees[i] = new Employee(firstname, lastname);
-                employee = employees[i];
-                break;
+                employees[i] = employee;
+                return employee;
             }
         }
-            return employee;
+        throw new StateIsFullException();
     }
 
     public Employee deleteEmployee(String firstname, String lastname) {
-        Employee employee = null;
+        Employee employee = new Employee(firstname, lastname);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getFirstName().equals(firstname) && employees[i].getLastName().equals(lastname)) {
-                employee = employees[i];
+            if (employees[i].equals(employee)) {
                 employees[i] = null;
+                return employee;
             }
         }
-        return employee;
-        //return "Сотрудник с Фамилией: " + lastname + "и именем: " + firstname + "удален";
+        throw new EmployeeNotFindException();
     }
 
     public Employee findEmployee(String firstname, String lastname) {
-        Employee employee = null;
+        Employee employee = new Employee(firstname, lastname);
         for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getFirstName().equals(firstname) && employees[i].getLastName().equals(lastname)) {
+            if (employees[i].equals(employee)) {
                 employee = employees[i];
+                return employee;
             }
         }
-        return employee;
-        //return "Сотрудник с Фамилией: " + lastname + "и именем: " + firstname + "найден";
-    }
-
-    public Employee print(int id) {
-        Employee employee = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (i == id) {
-                employee = employees[i];
-            }
-        }
-        if (employee == null) {
-            return employee;
-        } else {
-            return employee;
-        }
-    }
-    public int length() {
-        return employees.length;
+        throw new EmployeeNotFindException();
     }
 }
