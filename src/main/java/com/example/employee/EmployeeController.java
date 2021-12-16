@@ -3,8 +3,10 @@ package com.example.employee;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-//@RequestMapping("/employee")
+@RequestMapping("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -28,5 +30,10 @@ public class EmployeeController {
     public String find(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastname) {
         Employee employee = employeeService.findEmployee(firstName, lastname);
         return "Сотрудник " + employee + " найден";
+    }
+
+    @GetMapping("/print")
+    public List<Employee> print() {
+        return employeeService.print();
     }
 }
