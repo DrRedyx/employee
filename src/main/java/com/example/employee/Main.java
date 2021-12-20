@@ -26,33 +26,21 @@ public class Main {
 		}
 		System.out.println(set);
 		System.out.println("_________________");
-		List<String> words = new ArrayList<>();
-		words.add("Прокрастинаторы");
-		words.add("Прокрастинировали");
-		words.add("Прокрастинировали");
-		words.add("Да");
-		words.add("Не");
-		words.add("Выпрокрастинировали");
+		List<String> song = new ArrayList<>(List.of(
+				"Доброе", "утро", "последний", "герой",
+				"Доброе", "утро", "тебе", "и", "таким", "как", "ты"));
+		List<String> words = new ArrayList<>(song);
+		Set<String> songWithoutDuplicate = new HashSet<>(song);
 		//Task 3
-		for (int i = 0; i < words.size(); i++) {
-			for (int j = i + 1; j < words.size(); j++) {
-				if (words.get(i).equals(words.get(j))) {
-					words.remove(j);
-					words.remove(i);
-				}
-			}
+		for (String word : songWithoutDuplicate) {
+			words.remove(word);
 		}
-		System.out.println(words);
+		songWithoutDuplicate.removeAll(words);
+		System.out.println(songWithoutDuplicate);
 		//Task 4
-		words.add("Прокрастинировали");
-		words.add("Прокрастинировали");
-		System.out.println("Слова встрещающиеся 2 и более раз: ");
-		for (int i = 0; i < words.size(); i++) {
-			for (int j = i + 1; j < words.size(); j++) {
-				if (words.get(i).equals(words.get(j))) {
-					System.out.println(words.get(i));
-				}
-			}
-		}
+		Set<String> songDuplicateWords = new HashSet<>(words);
+		songDuplicateWords.removeAll(songWithoutDuplicate);
+		System.out.println("Слов встрещающиеся 2 и более раз: " + songDuplicateWords.size());
+		System.out.println("Слова: " + songDuplicateWords);
 	}
 }
