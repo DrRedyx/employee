@@ -8,9 +8,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/employee")
 public class EmployeeController {
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -20,20 +20,15 @@ public class EmployeeController {
         return "Сотрудник " + employee + " добавлен";
     }
 
-    @GetMapping("/remove")
-    public String remove(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastname) {
-        Employee employee = employeeService.deleteEmployee(firstName, lastname);
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Integer id) {
+        Employee employee = employeeService.deleteEmployee(id);
         return "Сотрудник " + employee + " удален";
     }
 
-    @GetMapping("/find")
-    public String find(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastname) {
-        Employee employee = employeeService.findEmployee(firstName, lastname);
+    @GetMapping("/find/{id}")
+    public String find(@PathVariable("id") Integer id) {
+        Employee employee = employeeService.findEmployee(id);
         return "Сотрудник " + employee + " найден";
-    }
-
-    @GetMapping("/print")
-    public List<Employee> print() {
-        return employeeService.print();
     }
 }
