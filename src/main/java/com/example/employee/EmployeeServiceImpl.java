@@ -3,16 +3,13 @@ package com.example.employee;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private Integer num;
-    private final Map <Integer, Employee> employees;
+    private final Map <String, Employee> employees;
 
     public EmployeeServiceImpl() {
         employees = new HashMap<>();
@@ -21,29 +18,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee addEmployee(String firstname, String lastname) {
-        Employee employee = new Employee(firstname, lastname);
-        num = employees.size();
-        employees.put(num, employee);
-        num++;
-        return employee;
+        String fullName = firstname + lastname;
+        if (!employees.containsKey(fullName)) {
+            Employee employee = new Employee(firstname, lastname);
+            employees.put(fullName, employee);
+            return employee;
+        } else {
+            throw new EmployeeIsAlreadyWorkException();
+        }
     }
     @Override
-    public Employee deleteEmployee(Integer num) {
-        if (employees.containsKey(num)) {
-            Employee employee = employees.get(num);
-            employees.remove(num);
+    public Employee deleteEmployee(String firstname, String lastname) {
+        String fullName = firstname + lastname;
+        if (employees.containsKey(fullName)) {
+            Employee employee = employees.get(fullName);
+            employees.remove(fullName);
             return employee;
         } else {
             throw new EmployeeNotFindException();
         }
     }
     @Override
-    public Employee findEmployee (Integer num){
-        if (employees.containsKey(num)) {
-            Employee employee = employees.get(num);
+    public Employee findEmployee (String firstname, String lastname){
+        String fullName = firstname + lastname;
+        if (employees.containsKey(fullName)) {
+            Employee employee = employees.get(fullName);
             return employee;
         } else {
             throw new EmployeeNotFindException();
+        }
+    }
+
+    @Override
+    public void printAllEmployee() {
+        for (String name : employees.keySet()) {
+            Employee employee = employees.get(name);
+            System.out.println(employee);
         }
     }
 }
