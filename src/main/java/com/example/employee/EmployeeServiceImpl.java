@@ -3,57 +3,53 @@ package com.example.employee;
 
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Map <String, Employee> employees;
+    private final List<Employee> employees;
 
     public EmployeeServiceImpl() {
-        employees = new HashMap<>();
+        employees = new ArrayList<>();
 
     }
 
     @Override
-    public Employee addEmployee(String firstname, String lastname) {
-        String fullName = firstname + lastname;
-        if (!employees.containsKey(fullName)) {
-            Employee employee = new Employee(firstname, lastname);
-            employees.put(fullName, employee);
-            return employee;
-        } else {
-            throw new EmployeeIsAlreadyWorkException();
+    public Employee addEmployee(String firstname, String lastname, int salary, int department) {
+        Employee employee = new Employee(firstname, lastname, salary, department);
+            if (!employees.contains(employee)) {
+                employees.add(employee);
+                return employee;
+            } else {
+                throw new EmployeeIsAlreadyWorkException();
+            }
         }
-    }
     @Override
-    public Employee deleteEmployee(String firstname, String lastname) {
-        String fullName = firstname + lastname;
-        if (employees.containsKey(fullName)) {
-            Employee employee = employees.get(fullName);
-            employees.remove(fullName);
-            return employee;
-        } else {
-            throw new EmployeeNotFindException();
-        }
-    }
-    @Override
-    public Employee findEmployee (String firstname, String lastname){
-        String fullName = firstname + lastname;
-        if (employees.containsKey(fullName)) {
-            Employee employee = employees.get(fullName);
+    public Employee deleteEmployee(String firstname, String lastname, int salary, int department) {
+        Employee employee = new Employee(firstname, lastname, salary, department);
+        if (!employees.contains(employee)) {
+            employees.remove(employee);
             return employee;
         } else {
             throw new EmployeeNotFindException();
         }
     }
+    @Override
+    public Employee findEmployee (String firstname, String lastname, int salary, int department){
+        Employee employee = new Employee(firstname, lastname, salary, department);
+        if (!employees.contains(employee)) {
+            return employee;
+        } else {
+            throw new EmployeeNotFindException();
+        }
+    }
 
     @Override
-    public void printAllEmployee() {
-        for (String name : employees.keySet()) {
-            Employee employee = employees.get(name);
-            System.out.println(employee);
-        }
+    public List<Employee> getAll() {
+        return employees;
     }
 }
