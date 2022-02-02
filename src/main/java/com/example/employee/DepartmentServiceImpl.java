@@ -13,30 +13,44 @@ public class DepartmentServiceImpl implements DepartmentService {
     private final EmployeeService employeeService;
 
     public DepartmentServiceImpl(EmployeeService employeeService) {
+
         this.employeeService = employeeService;
     }
 
     @Override
-    public Employee getMinSalaryDepartmentEmployee(int department) {
-        return employeeService.getAll().stream().
-                filter(employee -> employee.getDepartment() == department)
-                .min(Comparator.comparing(Employee::getSalary))
-                .get();
+    public Employee getMinSalaryDepartmentEmployee(Integer department) {
+        if (department != null || department < 5 || department != 0) {
+            return employeeService.getAll().stream().
+                    filter(employee -> employee.getDepartment() == department)
+                    .min(Comparator.comparing(Employee::getSalary))
+                    .orElseThrow(() -> new EmployeeNotFindException());
+        }
+        else {
+            throw new DepatmentNotFindException();
+        }
     }
 
     @Override
-    public Employee getMaxSalaryDepartmentEmployee(int department) {
-        return employeeService.getAll().stream().
-        filter(employee -> employee.getDepartment() == department)
-                .max(Comparator.comparing(Employee::getSalary))
-                .get();
+    public Employee getMaxSalaryDepartmentEmployee(Integer department) {
+        if (department != null || department < 5 || department != 0) {
+            return employeeService.getAll().stream().
+                    filter(employee -> employee.getDepartment() == department)
+                    .max(Comparator.comparing(Employee::getSalary))
+                    .orElseThrow(() -> new EmployeeNotFindException());
+        } else {
+            throw new DepatmentNotFindException();
+        }
     }
 
     @Override
-    public List<Employee> getDepartment(int department) {
-        return employeeService.getAll().stream().
-                filter(employee -> employee.getDepartment() == department)
-                .collect(Collectors.toList());
+    public List<Employee> getDepartment(Integer department) {
+        if (department != null || department < 5 || department != 0) {
+            return employeeService.getAll().stream().
+                    filter(employee -> employee.getDepartment() == department)
+                    .collect(Collectors.toList());
+        } else {
+            throw new DepatmentNotFindException();
+        }
     }
 
     @Override

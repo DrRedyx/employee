@@ -42,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (StringUtils.isAlpha(firstname) && StringUtils.isAlpha(lastname)) {
             StringUtils.capitalize(firstname);
             StringUtils.capitalize(lastname);
-            if (!employees.contains(employee)) {
+            if (employees.contains(employee)) {
                 employees.remove(employee);
                 return employee;
             } else {
@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (StringUtils.isAlpha(firstname) && StringUtils.isAlpha(lastname)) {
             StringUtils.capitalize(firstname);
             StringUtils.capitalize(lastname);
-            if (!employees.contains(employee)) {
+            if (employees.contains(employee)) {
                 return employee;
             } else {
                 throw new EmployeeNotFindException();
